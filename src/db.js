@@ -4,7 +4,7 @@ const { MongoClient } = mongo;
 
 const url = process.env.MONGO_URL;
 
-const client = new MongoClient(url, {useNewURLParser: true});
+export const client = new MongoClient(url, {useNewURLParser: true});
 
 export async function connectDb(){
     try{

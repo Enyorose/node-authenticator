@@ -17,18 +17,56 @@
         <button type="submit">Register</button>
     </form>
 
+    <hr/>
+
+    <h3>Login Form</h3>
+    <form id="login-form">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+
     <script>
         ; (() => {
-            const form = document.getElementById('register-form');
-            form.addEventListener('submit', (e) => {
+            const registerForm = document.getElementById('register-form');
+            registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const values = Object.values(form).reduce((obj, field) => {
+                try { const values = Object.values(registerForm).reduce((obj, field) => {
                     if (field.name) { obj[field.name] = field.value; }
                     return obj;
                 }, {})
-                console.log('values', values);
+               
+                const res = await fetch('/api/register', {
+                    method: "POST",
+                    body: JSON.stringify(values),
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                })}catch(e){
+                    console.error(e)
+                }
             })
-
+            // find form element
+            const loginForm = document.getElementById('login-form');
+            // wait for event
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                // get form values
+                try { const values = Object.values(loginForm).reduce((obj, field) => {
+                    if (field.name) { obj[field.name] = field.value; }
+                    return obj;
+                }, {})
+               //submit form
+                const res = await fetch('/api/authorize', {
+                    method: "POST",
+                    body: JSON.stringify(values),
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                })}catch(e){
+                    console.error(e)
+                }
+            })
         })()
 
 
